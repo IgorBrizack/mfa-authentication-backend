@@ -1,12 +1,15 @@
 {
   "dependencies": {
     "express": "^4.21.1",
+    "mysql2": "^3.11.3",
     "sequelize": "^6.37.5"
   },
   "scripts": {
     "start": "node dist/index.js",
     "dev": "ts-node-dev src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate:undo": "sequelize db:migrate:undo"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
@@ -16,6 +19,7 @@
     "@typescript-eslint/parser": "^8.11.0",
     "eslint": "^9.13.0",
     "nodemon": "^3.1.7",
+    "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.3"
