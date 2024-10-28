@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Mapeia a porta 3000 do container para a porta 3000 do host
+    volumes:
+      - .:/usr/src/app # Mapeia o diretório do projeto para dentro do container
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=password
+      - DB_NAME=mydatabase
+    depends_on:
+      - db
+    networks:
+      - core_network # Conectando o serviço do banco de dados à rede
+
+  db:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "3315:3306" # Mapeia a porta 3306 do container para a porta 3315 do host
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - db_data:/var/lib/mysql # Persistência dos dados do MySQL
+    networks:
+      - core_network # Conectando o serviço do banco de dados à rede
+
+volumes:
+  db_data:
+
+networks:
+  core_network:
