@@ -2,19 +2,20 @@ version: "3.8"
 
 services:
   app:
-    container_name: core_backend
+    container_name: core_api
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3100:3100"
     volumes:
       - .:/usr/src/app
     environment:
       - DB_HOST=db
       - DB_USER=root
-      - DB_PASS=password
+      - DB_PASS=rootpass
       - DB_NAME=mydatabase
+      - DB_PORT=5432 # Porta padrão do PostgreSQL
     depends_on:
       - db
     networks:
@@ -22,18 +23,17 @@ services:
 
   db:
     container_name: core_database
-    image: mysql:8.0
+    image: postgres:13 # Alterado para imagem do PostgreSQL
     restart: always
     ports:
-      - "3315:3306"
+      - "3315:5432" # Porta padrão do PostgreSQL é 5432
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: myuserpassword
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpass
       TZ: America/Sao_Paulo
     volumes:
-      - db_data:/var/lib/mysql # Persistência dos dados do MySQL
+      - db_data:/var/lib/postgresql/data # Persistência dos dados do PostgreSQL
     networks:
       - core_network # Conectando o serviço do banco de dados à rede
 
