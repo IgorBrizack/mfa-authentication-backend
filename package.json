@@ -1,27 +1,32 @@
 {
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "mysql2": "^3.11.3",
-    "sequelize": "^6.37.5"
+    "joi": "^17.13.3",
+    "pg": "^8.13.1",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
   },
   "scripts": {
     "start": "node dist/index.js",
     "dev": "ts-node-dev src/index.ts",
     "build": "tsc",
-    "db:migrate": "sequelize db:migrate",
-    "db:migrate:undo": "sequelize db:migrate:undo"
+    "migration:create": "npx typeorm migration:create -n",
+    "db:migrate": "",
+    "db:migrate:undo": ""
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.8.1",
-    "@types/sequelize": "^4.28.20",
+    "@types/node": "^22.8.4",
     "@typescript-eslint/eslint-plugin": "^8.11.0",
     "@typescript-eslint/parser": "^8.11.0",
     "eslint": "^9.13.0",
     "nodemon": "^3.1.7",
-    "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.6.3"
   }
 }
