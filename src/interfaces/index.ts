@@ -1,6 +1,16 @@
 export interface IMfaConfig {
-  entity_sid: string;
-  factor_sid: string;
+  entity_sid: string | null;
+  factor_sid: string | null;
   mfa_registered: boolean;
   mfa_enabled: boolean;
+}
+
+export interface IUser {
+  token: string;
+  name: string;
+  email: string;
+  password: string;
+  mfa_authentication: IMfaConfig;
+  created_at: Date;
+  updated_at: Date;
 }
