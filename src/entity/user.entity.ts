@@ -1,64 +1,60 @@
-import { Sequelize, DataTypes, Model } from "sequelize";
+import { validate, validateSync } from "class-validator";
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { IMfaConfig } from "../interfaces";
 
-export interface UserAttributes {
-  user_token: string;
-  user_name: string;
+export interface IUserCreationAttributes {
+  email: string;
+  name: string;
   password: string;
-  mfa_config: IMfaConfig;
-  created_at: Date;
-  updated_at: Date;
+  mfa_authentication: IMfaConfig;
 }
+@Entity("users")
+export class UserEntity extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  token!: string;
 
-export interface UserCreationAttributes {
-  user_name: string;
-  password: string;
-}
+  @Column({ type: "varchar", length: 255 })
+  email!: string;
 
-export class UserEntity extends Model<UserAttributes, UserCreationAttributes> {
-  user_token!: string;
-  user_name!: string;
+  @Column({ type: "varchar", length: 255 })
+  name!: string;
+
+  @Column({ type: "varchar", length: 255 })
   password!: string;
-  mfa_config!: IMfaConfig;
-  created_at!: Date;
-  updated_at!: Date;
-}
 
-module.exports = (sequelize: Sequelize) => {
-  return UserEntity.init(
-    {
-      user_token: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV1,
-        primaryKey: true,
-        allowNull: false,
-      },
-      user_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      mfa_config: {
-        type: DataTypes.JSON,
-        allowNull: true,
-      },
-      created_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      updated_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-    },
-    {
-      sequelize,
-      underscored: true,
-      tableName: "users",
-      modelName: "user",
+  @Column({ type: "json" })
+  mfa_authentication!: any;
+
+  @CreateDateColumn({ type: "timestamp" })
+  created_at!: Date;
+
+  @UpdateDateColumn({ type: "timestamp" })
+  updated_at!: Date;
+
+  constructor() {
+    super();
+  }
+
+  static createInstance(data: IUserCreationAttributes): UserEntity {
+    const userInstance = new this();
+
+    userInstance.email = data.email;
+    userInstance.name = data.name;
+    userInstance.password = data.password;
+    userInstance.mfa_authentication = data.mfa_authentication;
+    const errors = validateSync(userInstance);
+
+    if (errors.length > 0) {
+      throw new Error("Invalid user data");
     }
-  );
-};
+
+    return userInstance;
+  }
+}
