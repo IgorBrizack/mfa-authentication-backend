@@ -1,8 +1,8 @@
-// src/routes/app.router.ts
 import { Router, Request, Response } from "express";
 import { Validation } from "../validations";
 import { UserRegisterCommand } from "../use-cases/userRegister.command";
 import { UserRepository } from "../repository/user.repository";
+import { BaseError } from "../errors";
 
 export class AppRouter {
   private userRepository: UserRepository;
@@ -28,7 +28,10 @@ export class AppRouter {
 
         res.status(200).send(result);
       } catch (error) {
-        res.status(500).send(error);
+        if (error instanceof BaseError) {
+          res.status(error.statusCode).send({ error: error.message });
+        }
+        res.status(500);
       }
     });
 

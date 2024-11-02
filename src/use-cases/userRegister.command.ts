@@ -1,4 +1,5 @@
 import { IUserCreationAttributes } from "../entity/user.entity";
+import { BaseError } from "../errors";
 import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
 import bcrypt from "bcrypt";
@@ -32,7 +33,7 @@ export class UserRegisterCommand {
   private async verifyRepeatedEmail(email: string): Promise<void> {
     const user = await this.userRepository.findByEmail(email);
 
-    if (user) throw new Error("User already exists");
+    if (user) throw new BaseError("User already exists", 400);
   }
 
   private async encryptPassword(password: string): Promise<string> {
