@@ -2,6 +2,8 @@
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "joi": "^17.13.3",
@@ -11,11 +13,12 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "ts-node-dev src/index.ts",
+    "dev": "nodemon --watch src --exec ts-node -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
-    "migration:create": "npx typeorm migration:create -n",
-    "db:migrate": "",
-    "db:migrate:undo": ""
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "migration:create": "npm run typeorm migration:create ./src/db/migrations/players",
+    "migration:run": "npm run typeorm migration:run -- -d ./src/db/connection.ts",
+    "migration:revert": "npm run typeorm migration:revert -- -d ./src/db/connection.ts"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
