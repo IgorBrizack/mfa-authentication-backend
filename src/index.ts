@@ -1,25 +1,48 @@
-import express from "express";
+// src/app.ts
+import express, { Application } from "express";
 import "reflect-metadata";
 import { AppDataSource } from "./db/connection";
+import { AppRouter } from "./routes";
 
-export const app = express();
-const PORT = process.env.PORT || 3000;
+class AppServer {
+  public app: Application;
+  private port: number | string;
+  private appRouter: AppRouter;
 
-app.use(express.json());
+  constructor() {
+    this.app = express();
+    this.port = process.env.PORT || 3000;
+    this.appRouter = new AppRouter();
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log("DataSource inicializado.");
-    // Lógica adicional, como iniciar o servidor
-  })
-  .catch((error) => {
-    console.error("Erro ao inicializar o DataSource:", error);
-  });
+    this.initializeMiddlewares();
+    this.initializeDatabase();
+    this.initializeRoutes();
+  }
 
-app.get("/", (req, res) => {
-  res.send("API está funcionando!");
-});
+  private initializeMiddlewares(): void {
+    this.app.use(express.json());
+  }
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+  private initializeDatabase(): void {
+    AppDataSource.initialize()
+      .then(() => {
+        console.log("DataSource inicializado.");
+      })
+      .catch((error) => {
+        console.error("Erro ao inicializar o DataSource:", error);
+      });
+  }
+
+  private initializeRoutes(): void {
+    this.app.use("/", this.appRouter.getRouter());
+  }
+
+  public listen(): void {
+    this.app.listen(this.port, () => {
+      console.log(`Servidor rodando na porta ${this.port}`);
+    });
+  }
+}
+
+const server = new AppServer();
+server.listen();
