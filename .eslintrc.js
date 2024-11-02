@@ -22,5 +22,10 @@ module.exports = {
     quotes: ["error", "single"], // Exige o uso de aspas simples
     "no-console": "warn", // Emite um aviso para uso de console
     // Adicione outras regras conforme necessário
+    "require-await": "error",
+    "no-unused-vars": [
+      "warn",
+      { vars: "all", args: "after-used", ignoreRestSiblings: true },
+    ],
   },
 };
