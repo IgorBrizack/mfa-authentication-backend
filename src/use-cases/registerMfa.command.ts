@@ -1,3 +1,4 @@
+import { StatusCode } from "../enums";
 import { HttpExceptionError } from "../errors";
 import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
@@ -41,7 +42,8 @@ export class RegisterMfaCommand {
   private async getUser(userToken: string): Promise<IUser> {
     const user = await this.userRepository.findByEmail(userToken);
 
-    if (!user) throw new HttpExceptionError("User not found", 404);
+    if (!user)
+      throw new HttpExceptionError("User not found", StatusCode.NOT_FOUND);
 
     return user;
   }

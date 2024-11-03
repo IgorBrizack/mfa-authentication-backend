@@ -1,4 +1,5 @@
 import { IUserCreationAttributes } from "../entity/user.entity";
+import { StatusCode } from "../enums";
 import { HttpExceptionError } from "../errors";
 import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
@@ -32,7 +33,8 @@ export class UserRegisterCommand {
   private async verifyRepeatedEmail(email: string): Promise<void> {
     const user = await this.userRepository.findByEmail(email);
 
-    if (user) throw new HttpExceptionError("User already exists", 400);
+    if (user)
+      throw new HttpExceptionError("User already exists", StatusCode.CONFLICT);
   }
 
   private async encryptPassword(password: string): Promise<string> {

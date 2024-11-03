@@ -4,6 +4,7 @@ import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
 import * as jwt from "jsonwebtoken";
+import { StatusCode } from "../enums";
 
 interface RegisterMfaParams {
   token: string;
@@ -51,7 +52,10 @@ export class RegisterMfaCommand {
 
   private guardAgainstUnverifiedFactor(factor: FactorInstance): void {
     if (factor.status !== FactorStatus.VERIFIED) {
-      throw new HttpExceptionError("Invalid TOTP code", 401);
+      throw new HttpExceptionError(
+        "Invalid TOTP code",
+        StatusCode.UNAUTHORIZED
+      );
     }
   }
 
