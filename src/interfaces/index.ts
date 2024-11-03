@@ -14,3 +14,10 @@ export interface IUser {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface IUserRegularJwt {
+  token: string;
+  name: string;
+  email: string;
+  mfa_authentication: IMfaConfig;
+}

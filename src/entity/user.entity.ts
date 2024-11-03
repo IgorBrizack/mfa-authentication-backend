@@ -7,7 +7,7 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { IMfaConfig } from "../interfaces";
+import { IMfaConfig, IUserRegularJwt } from "../interfaces";
 
 export interface IUserCreationAttributes {
   email: string;
@@ -56,5 +56,19 @@ export class UserEntity extends BaseEntity {
     }
 
     return userInstance;
+  }
+
+  public getUserRegularJwt(): IUserRegularJwt {
+    return {
+      token: this.token,
+      name: this.name,
+      email: this.email,
+      mfa_authentication: {
+        entity_sid: this.mfa_authentication.entity_sid,
+        factor_sid: this.mfa_authentication.factor_sid,
+        mfa_registered: this.mfa_authentication.mfa_registered,
+        mfa_enabled: this.mfa_authentication.mfa_enabled,
+      },
+    };
   }
 }
