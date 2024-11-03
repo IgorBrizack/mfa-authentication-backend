@@ -21,3 +21,7 @@ export interface IUserRegularJwt {
   email: string;
   mfa_authentication: IMfaConfig;
 }
+
+export interface IChallenge {
+  approved: boolean;
+}
