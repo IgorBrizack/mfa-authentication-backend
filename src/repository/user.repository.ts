@@ -15,8 +15,17 @@ export class UserRepository {
     return await this.userRepository.save(userInstance);
   }
 
-  public async findByEmail(email: string): Promise<UserEntity | null> {
+  public async findByEmail(email: string): Promise<IUser | null> {
     const user = await this.userRepository.findOneBy({ email });
     return user;
+  }
+
+  public async findByToken(token: string): Promise<IUser | null> {
+    const user = await this.userRepository.findOneBy({ token });
+    return user;
+  }
+
+  public async saveEntity(user: IUser): Promise<IUser> {
+    return await this.userRepository.save(user);
   }
 }
