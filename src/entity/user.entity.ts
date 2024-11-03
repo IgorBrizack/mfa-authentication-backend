@@ -67,8 +67,11 @@ export class UserEntity extends BaseEntity {
         entity_sid: this.mfa_authentication.entity_sid,
         factor_sid: this.mfa_authentication.factor_sid,
         mfa_registered: this.mfa_authentication.mfa_registered,
-        mfa_enabled: this.mfa_authentication.mfa_enabled,
       },
     };
+  }
+
+  public userEntitySidRegistered(): boolean {
+    return this.mfa_authentication.entity_sid !== null;
   }
 }
