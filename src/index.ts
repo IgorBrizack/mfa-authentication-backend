@@ -3,6 +3,9 @@ import express, { Application } from "express";
 import "reflect-metadata";
 import { AppDataSource } from "./db/connection";
 import { AppRouter } from "./routes";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 class AppServer {
   public app: Application;
