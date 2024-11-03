@@ -1,4 +1,4 @@
-import { BaseError } from "../errors";
+import { HttpExceptionError } from "../errors";
 import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
@@ -41,7 +41,7 @@ export class RegisterMfaCommand {
   private async getUser(userToken: string): Promise<IUser> {
     const user = await this.userRepository.findByEmail(userToken);
 
-    if (!user) throw new BaseError("User not found", 404);
+    if (!user) throw new HttpExceptionError("User not found", 404);
 
     return user;
   }

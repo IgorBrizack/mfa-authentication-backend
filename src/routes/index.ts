@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { Validation } from "../validations";
 import { UserRepository } from "../repository/user.repository";
-import { BaseError } from "../errors";
+import { HttpExceptionError } from "../errors";
 import { LoginCommand, UserRegisterCommand } from "../use-cases";
 
 export class AppRouter {
@@ -28,7 +28,7 @@ export class AppRouter {
 
         res.status(200).send(result);
       } catch (error) {
-        if (error instanceof BaseError) {
+        if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
         }
         res.status(500);
@@ -45,7 +45,7 @@ export class AppRouter {
 
         res.status(200).send(result);
       } catch (error) {
-        if (error instanceof BaseError) {
+        if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
         }
         res.status(500);

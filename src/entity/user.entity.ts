@@ -7,7 +7,7 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { IMfaConfig, IUserRegularJwt } from "../interfaces";
+import { IMfaConfig, IUserJwt } from "../interfaces";
 
 export interface IUserCreationAttributes {
   email: string;
@@ -58,7 +58,7 @@ export class UserEntity extends BaseEntity {
     return userInstance;
   }
 
-  public getUserRegularJwt(): IUserRegularJwt {
+  public getUserRegularJwt(): IUserJwt {
     return {
       token: this.token,
       name: this.name,
@@ -67,11 +67,38 @@ export class UserEntity extends BaseEntity {
         entity_sid: this.mfa_authentication.entity_sid,
         factor_sid: this.mfa_authentication.factor_sid,
         mfa_registered: this.mfa_authentication.mfa_registered,
+        mfa_approved: false,
+      },
+    };
+  }
+
+  public getUserApprovedMfaJwt(): IUserJwt {
+    return {
+      token: this.token,
+      name: this.name,
+      email: this.email,
+      mfa_authentication: {
+        entity_sid: this.mfa_authentication.entity_sid,
+        factor_sid: this.mfa_authentication.factor_sid,
+        mfa_registered: true,
+        mfa_approved: true,
       },
     };
   }
 
   public userEntitySidRegistered(): boolean {
     return this.mfa_authentication.entity_sid !== null;
+  }
+
+  public getUserEntitySid(): string {
+    return this.mfa_authentication.entity_sid;
+  }
+
+  public getUserFactorSid(): string {
+    return this.mfa_authentication.factor_sid;
+  }
+
+  public setMfaRegistered(): void {
+    this.mfa_authentication.mfa_registered = true;
   }
 }

@@ -6,6 +6,13 @@ export interface IMfaConfig {
   mfa_registered: boolean;
 }
 
+export interface IMfaApproval {
+  entity_sid: string;
+  factor_sid: string;
+  mfa_registered: boolean;
+  mfa_approved: boolean;
+}
+
 export interface IUser extends UserEntity {
   token: string;
   name: string;
@@ -16,11 +23,11 @@ export interface IUser extends UserEntity {
   updated_at: Date;
 }
 
-export interface IUserRegularJwt {
+export interface IUserJwt {
   token: string;
   name: string;
   email: string;
-  mfa_authentication: IMfaConfig;
+  mfa_authentication: IMfaApproval;
 }
 
 export interface IChallenge {
