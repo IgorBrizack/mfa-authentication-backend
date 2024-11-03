@@ -17,10 +17,9 @@ export class UserRegisterCommand {
         ...params,
         password: hashedPassword,
         mfa_authentication: {
-          entity_sid: null,
-          factor_sid: null,
+          entity_sid: "",
+          factor_sid: "",
           mfa_registered: false,
-          mfa_enabled: false,
         },
       });
 
