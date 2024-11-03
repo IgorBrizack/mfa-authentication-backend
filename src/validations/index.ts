@@ -36,4 +36,19 @@ export class Validation {
 
     this.validateSchema(userCreationSchema, data);
   }
+
+  public validateUserLogin(data: any) {
+    const userCreationSchema = Joi.object<any>({
+      email: Joi.string().email().required().messages({
+        "string.empty": "O e-mail é obrigatório",
+        "string.email": "O e-mail é inválido",
+      }),
+
+      password: Joi.string().min(6).required().messages({
+        "string.empty": "A senha é obrigatória",
+      }),
+    });
+
+    this.validateSchema(userCreationSchema, data);
+  }
 }
