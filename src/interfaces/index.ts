@@ -1,11 +1,12 @@
+import { UserEntity } from "../entity/user.entity";
+
 export interface IMfaConfig {
-  entity_sid: string | null;
-  factor_sid: string | null;
+  entity_sid: string;
+  factor_sid: string;
   mfa_registered: boolean;
-  mfa_enabled: boolean;
 }
 
-export interface IUser {
+export interface IUser extends UserEntity {
   token: string;
   name: string;
   email: string;
