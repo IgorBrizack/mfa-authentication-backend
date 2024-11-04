@@ -2,13 +2,22 @@ import { Router, Request, Response } from "express";
 import { Validation } from "../validations";
 import { UserRepository } from "../repository/user.repository";
 import { HttpExceptionError } from "../errors";
-import { LoginCommand, UserRegisterCommand } from "../use-cases";
+import {
+  LoginCommand,
+  LoginMfaValidationCommand,
+  RegisterMfaCommand,
+  UserRegisterCommand,
+  ValidateMfaRegisterCommand,
+} from "../use-cases";
+import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
 
 export class AppRouter {
   private userRepository: UserRepository;
+  private mfaAuth: MfaAuthenticationService;
 
   constructor() {
     this.userRepository = new UserRepository();
+    this.mfaAuth = new MfaAuthenticationService();
   }
 
   public getRouter(): Router {
@@ -51,6 +60,86 @@ export class AppRouter {
         res.status(500);
       }
     });
+
+    router.post(
+      "/register-mfa/:userToken",
+      async (req: Request, res: Response) => {
+        const { params } = req;
+        try {
+          const command = new RegisterMfaCommand(
+            this.userRepository,
+            this.mfaAuth
+          );
+
+          const commandParams = {
+            userToken: params.userToken,
+          };
+
+          const result = await command.execute(commandParams);
+
+          res.status(201).send(result);
+        } catch (error) {
+          if (error instanceof HttpExceptionError) {
+            res.status(error.statusCode).send({ error: error.message });
+          }
+          res.status(500);
+        }
+      }
+    );
+
+    router.post(
+      "/register-mfa-validation/:userToken",
+      async (req: Request, res: Response) => {
+        const { params, body } = req;
+        try {
+          const command = new ValidateMfaRegisterCommand(
+            this.userRepository,
+            this.mfaAuth
+          );
+
+          const commandParams = {
+            userToken: params.userToken,
+            totpCode: body.totpCode,
+          };
+
+          const result = await command.execute(commandParams);
+
+          res.status(200).send(result);
+        } catch (error) {
+          if (error instanceof HttpExceptionError) {
+            res.status(error.statusCode).send({ error: error.message });
+          }
+          res.status(500);
+        }
+      }
+    );
+
+    router.post(
+      "/mfa-authentication/:userToken",
+      async (req: Request, res: Response) => {
+        const { params, body } = req;
+        try {
+          const command = new LoginMfaValidationCommand(
+            this.userRepository,
+            this.mfaAuth
+          );
+
+          const commandParams = {
+            userToken: params.userToken,
+            totpCode: body.totpCode,
+          };
+
+          const result = await command.execute(commandParams);
+
+          res.status(200).send(result);
+        } catch (error) {
+          if (error instanceof HttpExceptionError) {
+            res.status(error.statusCode).send({ error: error.message });
+          }
+          res.status(500);
+        }
+      }
+    );
 
     return router;
   }

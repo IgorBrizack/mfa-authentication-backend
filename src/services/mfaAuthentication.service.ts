@@ -2,6 +2,9 @@ import Twilio from "twilio/lib/rest/Twilio";
 import { FactorInstance } from "twilio/lib/rest/verify/v2/service/entity/factor";
 import { IChallenge } from "../interfaces";
 import { NewFactorInstance } from "twilio/lib/rest/verify/v2/service/entity/newFactor";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 enum ChallengeStatus {
   APPROVED = "approved",
@@ -18,6 +21,7 @@ export class MfaAuthenticationService {
   }
 
   public async createEntity(userToken: string): Promise<string> {
+    console.log(process.env.TWILLIO_SERVICE_SID);
     const newEntity = await this.client.verify.v2
       .services(process.env.TWILLIO_SERVICE_SID as string)
       .entities.create({

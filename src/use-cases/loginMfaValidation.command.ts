@@ -4,6 +4,9 @@ import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
 import * as jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export type LoginMfaValidationParams = {
   userToken: string;

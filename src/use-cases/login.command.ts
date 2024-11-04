@@ -5,6 +5,9 @@ import { IUser, IUserJwt } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
 import bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export type LoginCommandParams = {
   email: string;

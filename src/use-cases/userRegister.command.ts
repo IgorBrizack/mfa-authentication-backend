@@ -4,6 +4,9 @@ import { HttpExceptionError } from "../errors";
 import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export class UserRegisterCommand {
   constructor(private userRepository: UserRepository) {}

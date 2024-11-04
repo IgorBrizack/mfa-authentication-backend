@@ -87,7 +87,7 @@ export class UserEntity extends BaseEntity {
   }
 
   public userEntitySidRegistered(): boolean {
-    return this.mfa_authentication.entity_sid !== null;
+    return !!this.mfa_authentication.entity_sid;
   }
 
   public getUserEntitySid(): string {

@@ -5,9 +5,12 @@ import { UserRepository } from "../repository/user.repository";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
 import * as jwt from "jsonwebtoken";
 import { StatusCode } from "../enums";
+import dotenv from "dotenv";
 
-interface RegisterMfaParams {
-  token: string;
+dotenv.config();
+
+interface ValidateMfaRegisterParams {
+  userToken: string;
   totpCode: string;
 }
 
@@ -16,15 +19,15 @@ enum FactorStatus {
   UNVERIFIED = "unverified",
 }
 
-export class RegisterMfaCommand {
+export class ValidateMfaRegisterCommand {
   constructor(
     private userRepository: UserRepository,
     private mfaAuth: MfaAuthenticationService
   ) {}
 
-  public async execute(params: RegisterMfaParams): Promise<string> {
+  public async execute(params: ValidateMfaRegisterParams): Promise<string> {
     try {
-      const user = await this.getUser(params.token);
+      const user = await this.getUser(params.userToken);
 
       const factorUpdated = await this.mfaAuth.updateFactor(
         user.getUserEntitySid(),

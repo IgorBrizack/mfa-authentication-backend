@@ -4,6 +4,9 @@ import { IUser } from "../interfaces";
 import { UserRepository } from "../repository/user.repository";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
 import QRCode from "qrcode";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export type RegisterMfaParams = {
   userToken: string;
@@ -40,7 +43,7 @@ export class RegisterMfaCommand {
   }
 
   private async getUser(userToken: string): Promise<IUser> {
-    const user = await this.userRepository.findByEmail(userToken);
+    const user = await this.userRepository.findByToken(userToken);
 
     if (!user)
       throw new HttpExceptionError("User not found", StatusCode.NOT_FOUND);
