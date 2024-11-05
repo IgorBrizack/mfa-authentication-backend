@@ -10,14 +10,15 @@ import {
   ValidateMfaRegisterCommand,
 } from "../use-cases";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
+import { verifyMfa } from "../middlewares";
 
 export class AppRouter {
   private userRepository: UserRepository;
-  private mfaAuth: MfaAuthenticationService;
+  private mfaAuthService: MfaAuthenticationService;
 
   constructor() {
     this.userRepository = new UserRepository();
-    this.mfaAuth = new MfaAuthenticationService();
+    this.mfaAuthService = new MfaAuthenticationService();
   }
 
   public getRouter(): Router {
@@ -27,7 +28,7 @@ export class AppRouter {
       res.send({ success: true });
     });
 
-    router.post("/users", async (req: Request, res: Response) => {
+    router.post("/users", verifyMfa, async (req: Request, res: Response) => {
       const { body } = req;
       try {
         new Validation().validateUserCreation(body);
@@ -68,7 +69,7 @@ export class AppRouter {
         try {
           const command = new RegisterMfaCommand(
             this.userRepository,
-            this.mfaAuth
+            this.mfaAuthService
           );
 
           const commandParams = {
@@ -94,7 +95,7 @@ export class AppRouter {
         try {
           const command = new ValidateMfaRegisterCommand(
             this.userRepository,
-            this.mfaAuth
+            this.mfaAuthService
           );
 
           const commandParams = {
@@ -121,7 +122,7 @@ export class AppRouter {
         try {
           const command = new LoginMfaValidationCommand(
             this.userRepository,
-            this.mfaAuth
+            this.mfaAuthService
           );
 
           const commandParams = {

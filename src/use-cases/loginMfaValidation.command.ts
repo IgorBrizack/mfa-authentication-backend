@@ -16,14 +16,14 @@ export type LoginMfaValidationParams = {
 export class LoginMfaValidationCommand {
   constructor(
     private userRepository: UserRepository,
-    private mfaAuth: MfaAuthenticationService
+    private mfaAuthService: MfaAuthenticationService
   ) {}
 
   public async execute(params: LoginMfaValidationParams): Promise<string> {
     try {
       const user = await this.getUser(params.userToken);
 
-      const challenge = await this.mfaAuth.factorValidationChallenge(
+      const challenge = await this.mfaAuthService.factorValidationChallenge(
         user.getUserEntitySid(),
         user.getUserFactorSid(),
         params.totpCode

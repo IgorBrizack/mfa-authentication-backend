@@ -22,14 +22,14 @@ enum FactorStatus {
 export class ValidateMfaRegisterCommand {
   constructor(
     private userRepository: UserRepository,
-    private mfaAuth: MfaAuthenticationService
+    private mfaAuthService: MfaAuthenticationService
   ) {}
 
   public async execute(params: ValidateMfaRegisterParams): Promise<string> {
     try {
       const user = await this.getUser(params.userToken);
 
-      const factorUpdated = await this.mfaAuth.updateFactor(
+      const factorUpdated = await this.mfaAuthService.updateFactor(
         user.getUserEntitySid(),
         user.getUserFactorSid(),
         params.totpCode
