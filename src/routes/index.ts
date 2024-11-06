@@ -54,7 +54,7 @@ export class AppRouter {
         const command = new LoginCommand(this.userRepository);
         const result = await command.execute(body);
 
-        res.status(200).send(result);
+        res.status(200).send({ token: result });
       } catch (error) {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });

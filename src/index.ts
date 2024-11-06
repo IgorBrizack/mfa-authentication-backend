@@ -4,6 +4,7 @@ import "reflect-metadata";
 import { AppDataSource } from "./db/connection";
 import { AppRouter } from "./routes";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -11,6 +12,10 @@ class AppServer {
   public app: Application;
   private port: number | string;
   private appRouter: AppRouter;
+  private corsOptions = {
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  };
 
   constructor() {
     this.app = express();
@@ -24,6 +29,7 @@ class AppServer {
 
   private initializeMiddlewares(): void {
     this.app.use(express.json());
+    this.app.use(cors(this.corsOptions));
   }
 
   private initializeDatabase(): void {
