@@ -30,7 +30,10 @@ export class LoginMfaValidationCommand {
       );
 
       if (!challenge.approved) {
-        throw new HttpExceptionError("Challenge failed", StatusCode.FORBIDDEN);
+        throw new HttpExceptionError(
+          "Mfa validation failed",
+          StatusCode.FORBIDDEN
+        );
       }
 
       const token = this.generateJwt(user);
