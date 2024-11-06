@@ -28,4 +28,8 @@ export class UserRepository {
   public async saveEntity(user: IUser): Promise<IUser> {
     return await this.userRepository.save(user);
   }
+
+  public async getUsers(): Promise<IUser[]> {
+    return await this.userRepository.find();
+  }
 }

@@ -4,7 +4,11 @@ import { StatusCode } from "../enums";
 import { IUserJwt } from "../interfaces";
 import { HttpExceptionError } from "../errors";
 
-export const verifyMfa = (req: Request, res: Response, next: NextFunction) => {
+export const verifyMfaMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const token = req.headers["authorization"] as string; // Assume que o token é passado no header "Authorization"
 
   if (!token) {

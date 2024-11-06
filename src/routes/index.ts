@@ -3,6 +3,7 @@ import { Validation } from "../validations";
 import { UserRepository } from "../repository/user.repository";
 import { HttpExceptionError } from "../errors";
 import {
+  ListUsersCommand,
   LoginCommand,
   LoginMfaValidationCommand,
   RegisterMfaCommand,
@@ -10,7 +11,7 @@ import {
   ValidateMfaRegisterCommand,
 } from "../use-cases";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
-import { verifyMfa } from "../middlewares";
+import { verifyMfaMiddleware } from "../middlewares";
 
 export class AppRouter {
   private userRepository: UserRepository;
@@ -28,7 +29,7 @@ export class AppRouter {
       res.send({ success: true });
     });
 
-    router.post("/users", verifyMfa, async (req: Request, res: Response) => {
+    router.post("/users", async (req: Request, res: Response) => {
       const { body } = req;
       try {
         new Validation().validateUserCreation(body);
@@ -131,6 +132,25 @@ export class AppRouter {
           };
 
           const result = await command.execute(commandParams);
+
+          res.status(200).send(result);
+        } catch (error) {
+          if (error instanceof HttpExceptionError) {
+            res.status(error.statusCode).send({ error: error.message });
+          }
+          res.status(500);
+        }
+      }
+    );
+
+    router.get(
+      "/users",
+      verifyMfaMiddleware,
+      async (req: Request, res: Response) => {
+        try {
+          const command = new ListUsersCommand(this.userRepository);
+
+          const result = await command.execute();
 
           res.status(200).send(result);
         } catch (error) {

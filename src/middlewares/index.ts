@@ -1,1 +1,1 @@
-export { verifyMfa } from "./verifyMfa.middleware";
+export { verifyMfaMiddleware } from "./verifyMfa.middleware";
