@@ -15,7 +15,7 @@ export type RegisterMfaParams = {
 export class RegisterMfaCommand {
   constructor(
     private userRepository: UserRepository,
-    private mfaAuth: MfaAuthenticationService
+    private mfaAuthService: MfaAuthenticationService
   ) {}
 
   public async execute(params: RegisterMfaParams): Promise<string> {
@@ -24,9 +24,9 @@ export class RegisterMfaCommand {
 
       const userEntitySid = user.userEntitySidRegistered()
         ? user.mfa_authentication.entity_sid
-        : await this.mfaAuth.createEntity(params.userToken);
+        : await this.mfaAuthService.createEntity(params.userToken);
 
-      const newFactorGenerated = await this.mfaAuth.generateNewFactor(
+      const newFactorGenerated = await this.mfaAuthService.generateNewFactor(
         user.email,
         userEntitySid
       );

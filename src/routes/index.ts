@@ -3,6 +3,7 @@ import { Validation } from "../validations";
 import { UserRepository } from "../repository/user.repository";
 import { HttpExceptionError } from "../errors";
 import {
+  ListUsersCommand,
   LoginCommand,
   LoginMfaValidationCommand,
   RegisterMfaCommand,
@@ -10,14 +11,15 @@ import {
   ValidateMfaRegisterCommand,
 } from "../use-cases";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
+import { verifyMfaMiddleware } from "../middlewares";
 
 export class AppRouter {
   private userRepository: UserRepository;
-  private mfaAuth: MfaAuthenticationService;
+  private mfaAuthService: MfaAuthenticationService;
 
   constructor() {
     this.userRepository = new UserRepository();
-    this.mfaAuth = new MfaAuthenticationService();
+    this.mfaAuthService = new MfaAuthenticationService();
   }
 
   public getRouter(): Router {
@@ -52,7 +54,7 @@ export class AppRouter {
         const command = new LoginCommand(this.userRepository);
         const result = await command.execute(body);
 
-        res.status(200).send(result);
+        res.status(200).send({ token: result });
       } catch (error) {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
@@ -68,7 +70,7 @@ export class AppRouter {
         try {
           const command = new RegisterMfaCommand(
             this.userRepository,
-            this.mfaAuth
+            this.mfaAuthService
           );
 
           const commandParams = {
@@ -94,7 +96,7 @@ export class AppRouter {
         try {
           const command = new ValidateMfaRegisterCommand(
             this.userRepository,
-            this.mfaAuth
+            this.mfaAuthService
           );
 
           const commandParams = {
@@ -121,7 +123,7 @@ export class AppRouter {
         try {
           const command = new LoginMfaValidationCommand(
             this.userRepository,
-            this.mfaAuth
+            this.mfaAuthService
           );
 
           const commandParams = {
@@ -130,6 +132,25 @@ export class AppRouter {
           };
 
           const result = await command.execute(commandParams);
+
+          res.status(200).send(result);
+        } catch (error) {
+          if (error instanceof HttpExceptionError) {
+            res.status(error.statusCode).send({ error: error.message });
+          }
+          res.status(500);
+        }
+      }
+    );
+
+    router.get(
+      "/users",
+      verifyMfaMiddleware,
+      async (req: Request, res: Response) => {
+        try {
+          const command = new ListUsersCommand(this.userRepository);
+
+          const result = await command.execute();
 
           res.status(200).send(result);
         } catch (error) {
