@@ -33,12 +33,12 @@ services:
       POSTGRES_PASSWORD: rootpass
       TZ: America/Sao_Paulo
     volumes:
-      - db_data:/var/lib/postgresql/data # Persistência dos dados do PostgreSQL
+      - ./db_data/core:/var/lib/postgresql/data # Persistência dos dados do PostgreSQL
     networks:
       - core_network # Conectando o serviço do banco de dados à rede
 
 volumes:
-  db_data:
+  db_data: # Volume para persistência dos dados do serviço do banco de dados core_data
 
 networks:
   core_network:
