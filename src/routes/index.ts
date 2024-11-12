@@ -12,6 +12,7 @@ import {
 } from "../use-cases";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
 import { verifyMfaMiddleware } from "../middlewares";
+import { RequestEnriched } from "../interfaces";
 
 export class AppRouter {
   private userRepository: UserRepository;
@@ -146,7 +147,7 @@ export class AppRouter {
     router.get(
       "/users",
       verifyMfaMiddleware,
-      async (req: Request, res: Response) => {
+      async (req: RequestEnriched, res: Response) => {
         try {
           const command = new ListUsersCommand(this.userRepository);
 
