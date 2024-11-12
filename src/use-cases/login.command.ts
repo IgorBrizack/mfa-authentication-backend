@@ -33,8 +33,9 @@ export class LoginCommand {
   private async getUser(email: string): Promise<UserEntity> {
     const user = await this.userRepository.findByEmail(email);
 
-    if (!user)
+    if (!user) {
       throw new HttpExceptionError("User not found", StatusCode.NOT_FOUND);
+    }
 
     return user;
   }
