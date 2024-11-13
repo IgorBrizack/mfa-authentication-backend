@@ -43,7 +43,7 @@ export class AppRouter {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
         }
-        res.status(500);
+        res.status(500).send({ error: "Internal server error" });
       }
     });
 
@@ -60,7 +60,7 @@ export class AppRouter {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
         }
-        res.status(500);
+        res.status(500).send({ error: "Internal server error" });
       }
     });
 
@@ -85,7 +85,7 @@ export class AppRouter {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
           }
-          res.status(500);
+          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
@@ -112,7 +112,7 @@ export class AppRouter {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
           }
-          res.status(500);
+          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
@@ -139,7 +139,7 @@ export class AppRouter {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
           }
-          res.status(500);
+          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
@@ -158,7 +158,7 @@ export class AppRouter {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
           }
-          res.status(500);
+          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
