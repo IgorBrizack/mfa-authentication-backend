@@ -21,7 +21,6 @@ export class MfaAuthenticationService {
   }
 
   public async createEntity(userToken: string): Promise<string> {
-    console.log(process.env.TWILLIO_SERVICE_SID);
     const newEntity = await this.client.verify.v2
       .services(process.env.TWILLIO_SERVICE_SID as string)
       .entities.create({

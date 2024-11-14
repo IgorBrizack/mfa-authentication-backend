@@ -80,7 +80,7 @@ export class AppRouter {
 
           const result = await command.execute(commandParams);
 
-          res.status(201).send(result);
+          res.status(201).send({ qrCode: result });
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
@@ -107,7 +107,7 @@ export class AppRouter {
 
           const result = await command.execute(commandParams);
 
-          res.status(200).send(result);
+          res.status(200).send({ token: result });
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
@@ -134,7 +134,7 @@ export class AppRouter {
 
           const result = await command.execute(commandParams);
 
-          res.status(200).send(result);
+          res.status(200).send({ token: result });
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
