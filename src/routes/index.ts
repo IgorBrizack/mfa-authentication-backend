@@ -42,8 +42,9 @@ export class AppRouter {
       } catch (error) {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
+        } else {
+          res.status(500).send({ error: "Internal server error" });
         }
-        res.status(500).send({ error: "Internal server error" });
       }
     });
 
@@ -59,8 +60,9 @@ export class AppRouter {
       } catch (error) {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
+        } else {
+          res.status(500).send({ error: "Internal server error" });
         }
-        res.status(500).send({ error: "Internal server error" });
       }
     });
 
@@ -84,8 +86,9 @@ export class AppRouter {
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
@@ -111,8 +114,9 @@ export class AppRouter {
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
@@ -138,8 +142,9 @@ export class AppRouter {
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
@@ -157,8 +162,9 @@ export class AppRouter {
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500).send({ error: "Internal server error" });
         }
       }
     );
