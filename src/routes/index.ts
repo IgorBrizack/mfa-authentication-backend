@@ -30,7 +30,7 @@ export class AppRouter {
       res.send({ success: true });
     });
 
-    router.post("/users", async (req: Request, res: Response) => {
+    router.post("/register", async (req: Request, res: Response) => {
       const { body } = req;
       try {
         new Validation().validateUserCreation(body);
