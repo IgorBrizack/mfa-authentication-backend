@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { TokenExpiredError } from "jsonwebtoken";
 import { StatusCode } from "../enums";
-import { IUserJwt } from "../interfaces";
+import { IUserJwt, RequestEnriched } from "../interfaces";
 import { HttpExceptionError } from "../errors";
 
 export const verifyMfaMiddleware = (
-  req: Request,
+  req: RequestEnriched,
   res: Response,
   next: NextFunction
 ) => {
@@ -27,11 +27,16 @@ export const verifyMfaMiddleware = (
       );
     }
 
+    req.user = decoded;
+
     next();
   } catch (error) {
-    if (error instanceof HttpExceptionError) {
+    if (error instanceof TokenExpiredError) {
+      res.status(401).send({ error: "Token has expired" });
+    } else if (error instanceof HttpExceptionError) {
       res.status(error.statusCode).send({ error: error.message });
+    } else {
+      res.status(500).send({ error: "Failed to authenticate token" });
     }
-    res.status(500);
   }
 };

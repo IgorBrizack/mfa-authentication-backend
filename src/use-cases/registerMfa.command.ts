@@ -58,6 +58,7 @@ export class RegisterMfaCommand {
   ): Promise<void> {
     user.mfa_authentication.entity_sid = mfaEntitySid;
     user.mfa_authentication.factor_sid = newFactorSid;
+    user.mfa_authentication.mfa_registered = true;
 
     await this.userRepository.saveEntity(user);
   }

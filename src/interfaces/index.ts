@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { UserEntity } from "../entity/user.entity";
 
 export interface IMfaConfig {
@@ -7,8 +8,6 @@ export interface IMfaConfig {
 }
 
 export interface IMfaApproval {
-  entity_sid: string;
-  factor_sid: string;
   mfa_registered: boolean;
   mfa_approved: boolean;
 }
@@ -33,3 +32,7 @@ export interface IUserJwt {
 export interface IChallenge {
   approved: boolean;
 }
+
+export type RequestEnriched = Request & {
+  user?: IUserJwt;
+};

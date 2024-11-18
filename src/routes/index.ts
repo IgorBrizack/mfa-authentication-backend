@@ -12,6 +12,7 @@ import {
 } from "../use-cases";
 import { MfaAuthenticationService } from "../services/mfaAuthentication.service";
 import { verifyMfaMiddleware } from "../middlewares";
+import { RequestEnriched } from "../interfaces";
 
 export class AppRouter {
   private userRepository: UserRepository;
@@ -29,7 +30,7 @@ export class AppRouter {
       res.send({ success: true });
     });
 
-    router.post("/users", async (req: Request, res: Response) => {
+    router.post("/register", async (req: Request, res: Response) => {
       const { body } = req;
       try {
         new Validation().validateUserCreation(body);
@@ -41,8 +42,9 @@ export class AppRouter {
       } catch (error) {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
+        } else {
+          res.status(500).send({ error: "Internal server error" });
         }
-        res.status(500);
       }
     });
 
@@ -58,8 +60,9 @@ export class AppRouter {
       } catch (error) {
         if (error instanceof HttpExceptionError) {
           res.status(error.statusCode).send({ error: error.message });
+        } else {
+          res.status(500).send({ error: "Internal server error" });
         }
-        res.status(500);
       }
     });
 
@@ -79,12 +82,13 @@ export class AppRouter {
 
           const result = await command.execute(commandParams);
 
-          res.status(201).send(result);
+          res.status(201).send({ qrCode: result });
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500);
         }
       }
     );
@@ -106,12 +110,13 @@ export class AppRouter {
 
           const result = await command.execute(commandParams);
 
-          res.status(200).send(result);
+          res.status(200).send({ token: result });
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500);
         }
       }
     );
@@ -133,12 +138,13 @@ export class AppRouter {
 
           const result = await command.execute(commandParams);
 
-          res.status(200).send(result);
+          res.status(200).send({ token: result });
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500);
         }
       }
     );
@@ -146,7 +152,7 @@ export class AppRouter {
     router.get(
       "/users",
       verifyMfaMiddleware,
-      async (req: Request, res: Response) => {
+      async (req: RequestEnriched, res: Response) => {
         try {
           const command = new ListUsersCommand(this.userRepository);
 
@@ -156,8 +162,9 @@ export class AppRouter {
         } catch (error) {
           if (error instanceof HttpExceptionError) {
             res.status(error.statusCode).send({ error: error.message });
+          } else {
+            res.status(500).send({ error: "Internal server error" });
           }
-          res.status(500);
         }
       }
     );
