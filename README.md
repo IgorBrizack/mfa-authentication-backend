@@ -27,10 +27,13 @@ git clone git@github.com:IgorBrizack/mfa-authentication-backend.git
 
    - Grab your AccountSID and Auth Token
 
+   - Create your service and give it a name
+
    <p align="center">
    <img src="./src/assets/twillio_acc_sid_auth_token.png" alt="acc_sid_auth_token" width="500" height="300">
    </p>
-   - Create your service and give it a name
+
+   <br/>
 
    <p align="center">
    <img src="./src/assets/creating_service.png" alt="creating_service" width="500" height="300">
