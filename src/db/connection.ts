@@ -19,7 +19,7 @@ export const AppDataSource = new DataSource({
   migrations: ["./src/db/migrations/**/*{.ts,.js}"],
   extra: {
     connectionLimit: 10,
-    ssl: false,
+    ssl: true,
     allowPublicKeyRetrieval: true,
   },
 });
