@@ -23,9 +23,13 @@ git clone git@github.com:IgorBrizack/mfa-authentication-backend.git
 
 2. **Create account at Twillio Website and setup your service configurations**
 
-[Twillio](https://www.twilio.com/login)
+   - Website [Twillio](https://www.twilio.com/login)
 
-2. **Run with Docker**
+   - Grab your AccountSID and Auth Token
+
+   <img src="./src/assets/twillio_acc_sid_auth_token.png" alt="acc_sid_auth_token" width="500" height="300">
+
+3. **Run with Docker**
 
 ```
 docker-compose up -d --build
