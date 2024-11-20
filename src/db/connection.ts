@@ -7,7 +7,7 @@ dotenv.config();
 
 const prodDataSource = new DataSource({
   type: "postgres",
-  url: "postgresql://mfadb_owner:SYyHs53bpzvR@ep-white-bush-a53l1a91.us-east-2.aws.neon.tech/mfadb",
+  url: process.env.DATABASE_URL,
   synchronize: true,
   logging: true,
   entities: [UserEntity],
