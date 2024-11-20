@@ -4,7 +4,7 @@
 
 ## About this project
 
-This project will present how to create an API with JWT authentication / 2 factor authentication. To build this application I use **NodeJS + Express** to create the server, **TypeScript**, **POO and Clean Architecture**. Core lib selected to this project was **Twillio Authy** to provide our 2 factor authentication service and QRcode to generate the TOTP code with any code generator App. To have the full experience you will need to run the frontend. [Frontend](https://github.com/IgorBrizack/mfa-authentication-front).
+This project will present how to create an API with JWT authentication / 2 factor authentication. To build this application I use **NodeJS + Express** to create the server, **TypeScript**, **POO and Clean Architecture**. Core lib selected to this project was **Twillio Authy** to provide our 2 factor authentication service and QRcode to generate the TOTP code with any code generator App. To have the full experience you will need to run the [Frontend](https://github.com/IgorBrizack/mfa-authentication-front) and start the server to interact.
 
 <!-- <div style="display: flex; gap: 10px; margin-bottom: 10px">
   <img src="./src/assets/login_screen.png" alt="login_screen" width="320" height="200">
@@ -28,6 +28,10 @@ git clone git@github.com:IgorBrizack/mfa-authentication-backend.git
    - Grab your AccountSID and Auth Token
 
    <img src="./src/assets/twillio_acc_sid_auth_token.png" alt="acc_sid_auth_token" width="500" height="300">
+
+   - Create your service and give it a name
+
+   <img src="./src/assets/creating_service.png" alt="creating_service" width="500" height="300">
 
 3. **Run with Docker**
 
