@@ -9,12 +9,13 @@ const prodDataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_URL,
   synchronize: true,
-  logging: false,
+  logging: true,
   entities: [UserEntity],
   subscribers: [],
   migrations: ["./src/db/migrations/**/*{.ts,.js}"],
   extra: {
     connectionLimit: 10,
+    ssl: true,
   },
 });
 
