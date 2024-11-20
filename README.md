@@ -6,13 +6,6 @@
 
 This project will present how to create an API with JWT authentication / 2 factor authentication. To build this application I use **NodeJS + Express** to create the server, **TypeScript**, **POO and Clean Architecture**. Core lib selected to this project was **Twillio Authy** to provide our 2 factor authentication service and QRcode to generate the TOTP code with any code generator App. To have the full experience you will need to run the [Frontend](https://github.com/IgorBrizack/mfa-authentication-front) and start the server to interact.
 
-<!-- <div style="display: flex; gap: 10px; margin-bottom: 10px">
-  <img src="./src/assets/login_screen.png" alt="login_screen" width="320" height="200">
-  <img src="./src/assets/qr_code_screen.png" alt="qr_screen" width="320" height="200">
-  <img src="./src/assets/home_screen.png" alt="home_screen" width="320" height="200">
-</div>
-</br> -->
-
 ## Steps
 
 1.  **Clone the repository**
@@ -27,9 +20,11 @@ git clone git@github.com:IgorBrizack/mfa-authentication-backend.git
 
    - Grab your AccountSID and Auth Token
 
-   - Create your service and give it a name
+   - Create your service at Develop >>> Verify and give it a name
 
-   - After service creation at service Settings Grab your Service Sid
+   - After service creation at service settings **grab your Service Sid**
+
+   - If you want, is possible at the TOTP option to change the name that will appers in the authentication App.
 
    <p align="center">
     <img src="./src/assets/twillio_acc_sid_auth_token.png" alt="acc_sid_auth_token" width="500" height="300">
@@ -60,9 +55,11 @@ npm install
 npm run dev
 ```
 
-4. **The server will start at Port 3100 of your host**
+4. **Setup your envs** check the .env.example file
 
-5. **Start the [Backend](https://github.com/IgorBrizack/mfa-authentication-backend) and setup your envs**
+5. **The server will start at Port 3100 of your host**
+
+6. **Start the [Frontend](https://github.com/IgorBrizack/mfa-authentication-front)**
 
 ---
 
