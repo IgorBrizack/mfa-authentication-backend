@@ -15,9 +15,6 @@ const prodDataSource = new DataSource({
   migrations: ["./src/db/migrations/**/*{.ts,.js}"],
   extra: {
     connectionLimit: 10,
-    ssl: {
-      rejectUnauthorized: false,
-    },
   },
 });
 
